@@ -24,7 +24,7 @@ public class ErrorHandler {
                 .toString();
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
     public ResponseError badValidation(MethodArgumentNotValidException exception) {
         String exceptionMessage = getValidationExceptionMessage(exception);
@@ -32,14 +32,14 @@ public class ErrorHandler {
         return new ResponseError(exceptionMessage, BAD_REQUEST);
     }
 
-    @ExceptionHandler(MissingServletRequestParameterException.class)
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseError missingRequestParameter(MissingServletRequestParameterException exception) {
         log.error(exception.getMessage(), exception);
         return new ResponseError(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Throwable.class)
+    @ExceptionHandler
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     public ResponseError internalServerError(Throwable exception) {
         log.error(exception.getMessage(), exception);
