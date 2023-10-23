@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
-@Table(name = "stats_box")
+@Table(name = "stats")
 @Getter
 @Setter
 @ToString
