@@ -38,7 +38,7 @@ public class EventAdminController {
             @RequestParam(defaultValue = "10") Integer size
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
-        return eventService.getEventList(EventFilter.of( users, states, categories, rangeStart, rangeEnd, from, size));
+        return eventService.getEventList(EventFilter.of(users, states, categories, rangeStart, rangeEnd, from, size));
     }
 
     @PatchMapping("/{eventId}")
