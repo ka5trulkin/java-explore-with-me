@@ -61,6 +61,7 @@ public class EventServiceImpl implements EventService {
     private final CategoryRepository categoryRepo;
     private final EventRequestRepository requestRepo;
     private final StatsClient statsClient;
+    private final int marginForRequestDelays = 1;
 
     private Event getEventOrThrow(Long userId, Long eventId) {
         return eventRepo.findOne(event.id.eq(eventId).and(event.initiator.id.eq(userId)))
@@ -89,9 +90,9 @@ public class EventServiceImpl implements EventService {
     private LocalDateTime getEarliestTime(List<Event> events) {
         if (!events.isEmpty()) {
             return events.stream()
-                    .min(Comparator.comparing(Event::getEventDate))
+                    .min(Comparator.comparing(Event::getCreatedOn))
                     .get()
-                    .getEventDate();
+                    .getCreatedOn().minusHours(marginForRequestDelays);
         } else return now();
     }
 
@@ -102,7 +103,7 @@ public class EventServiceImpl implements EventService {
     private void setEventViews(Event event, HttpServletRequest request) {
         final String eventUri = this.getUri(event);
         final List<StatsHitResponse> stats
-                = statsClient.getStats(event.getCreatedOn(), now(), List.of(eventUri), true);
+                = statsClient.getStats(event.getCreatedOn().minusHours(marginForRequestDelays), now(), List.of(eventUri), true);
         stats.forEach(
                 stat -> {
                     if (stat.getUri().equals(eventUri)) {
