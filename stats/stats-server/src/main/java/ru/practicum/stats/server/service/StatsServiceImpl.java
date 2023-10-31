@@ -42,21 +42,11 @@ public class StatsServiceImpl implements StatsService {
         if (filter.getStart().isAfter(filter.getEnd())) {
             throw new BadEventTimeException(EVENT_START_END_BAD);
         }
-        final List<Tuple> tuplesToResponse;
-        final Predicate predicate;
-        //не нашел условия в ТЗ, если uri == "/events", то должен возвращаться список всех uri
-        //без этого условия не проходят тесты для Stats
-        if (filter.getUris() != null && !filter.getUris().isEmpty() && filter.getUris().contains("/events")) {
-            predicate = QPredicate.builder()
-                    .add(statsHit.timestamp.between(filter.getStart(), filter.getEnd()))
-                    .buildAnd();
-        } else {
-            predicate = QPredicate.builder()
-                    .add(statsHit.timestamp.between(filter.getStart(), filter.getEnd()))
-                    .add(filter.getUris(), statsHit.uri::in)
-                    .buildAnd();
-        }
-        tuplesToResponse = statsRepo.getTuplesToResponse(predicate, filter, entityManager);
+        final Predicate predicate = QPredicate.builder()
+                .add(statsHit.timestamp.between(filter.getStart(), filter.getEnd()))
+                .add(filter.getUris(), statsHit.uri::in)
+                .buildAnd();
+        final List<Tuple> tuplesToResponse = statsRepo.getTuplesToResponse(predicate, filter, entityManager);
         log.info(STATS_GET, filter.getStart(), filter.getEnd());
         return StatsMapper.toStatsHitResponse(tuplesToResponse);
     }
