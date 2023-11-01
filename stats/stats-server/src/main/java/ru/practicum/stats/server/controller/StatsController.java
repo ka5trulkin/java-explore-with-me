@@ -30,7 +30,7 @@ public class StatsController {
         log.info(REQUEST_POST_HIT, statHitCreate.getUri());
         statsService.postStatsHit(statHitCreate);
     }
-//
+
     @GetMapping(STATS_PREFIX)
     public List<StatsHitResponse> getStats(
             @RequestParam @DateTimeFormat(pattern = DATE_TIME) LocalDateTime start,
