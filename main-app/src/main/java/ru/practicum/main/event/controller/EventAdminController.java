@@ -12,6 +12,8 @@ import ru.practicum.main.event.service.EventService;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
 import ru.practicum.utils.marker.AdminInfo;
 
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +26,7 @@ import static ru.practicum.utils.message.LogMessage.REQUEST_UPDATE_EVENT;
 @Slf4j
 @RequestMapping(path = EVENT_ADMIN_PREFIX)
 @RequiredArgsConstructor
+@Validated
 public class EventAdminController {
     private final EventService eventService;
 
@@ -34,8 +37,8 @@ public class EventAdminController {
             @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeStart,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeEnd,
-            @RequestParam(defaultValue = "0") Integer from,
-            @RequestParam(defaultValue = "10") Integer size
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive Integer size
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
         return eventService.getEventList(EventFilter.of(users, states, categories, rangeStart, rangeEnd, from, size));
@@ -43,7 +46,7 @@ public class EventAdminController {
 
     @PatchMapping("/{eventId}")
     public EventFullDto updateEvent(
-            @PathVariable Long eventId,
+            @PathVariable @Positive Long eventId,
             @RequestBody @Validated(AdminInfo.class) UpdateEventRequest dto
     ) {
         log.info(REQUEST_UPDATE_EVENT, eventId);

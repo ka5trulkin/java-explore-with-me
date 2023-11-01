@@ -27,25 +27,30 @@ import static ru.practicum.utils.message.LogMessage.*;
 @Slf4j
 @RequestMapping(path = EVENT_PRIVATE_PREFIX)
 @RequiredArgsConstructor
+@Validated
 public class EventPrivateController {
     private final EventService eventService;
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public EventFullDto postEvent(@PathVariable Long userId, @Validated(CreateInfo.class) @RequestBody EventCreateDto dto) {
+    public EventFullDto postEvent(
+            @PathVariable @Positive Long userId,
+            @Validated(CreateInfo.class)
+            @RequestBody EventCreateDto dto
+    ) {
         log.info(REQUEST_ADD_EVENT, dto.getTitle());
         return eventService.postEvent(userId, dto);
     }
 
     @GetMapping("/{eventId}")
-    public EventFullDto getEvent(@PathVariable Long userId, @PathVariable Long eventId) {
+    public EventFullDto getEvent(@PathVariable @Positive Long userId, @Positive @PathVariable Long eventId) {
         log.info(REQUEST_GET_EVENT, eventId);
         return eventService.getEvent(userId, eventId);
     }
 
     @GetMapping
     public List<EventFullDto> getEventList(
-            @PathVariable Long userId,
+            @PathVariable @Positive Long userId,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive Integer size
     ) {
@@ -55,8 +60,8 @@ public class EventPrivateController {
 
     @PatchMapping("/{eventId}")
     public EventFullDto updateEvent(
-            @PathVariable Long userId,
-            @PathVariable Long eventId,
+            @PathVariable @Positive Long userId,
+            @PathVariable @Positive Long eventId,
             @RequestBody @Validated(UpdateInfo.class) UpdateEventRequest dto
     ) {
         log.info(REQUEST_UPDATE_EVENT, eventId);
@@ -64,15 +69,18 @@ public class EventPrivateController {
     }
 
     @GetMapping("/{eventId}/requests")
-    public List<ParticipationRequestDto> getRequestList(@PathVariable Long userId, @PathVariable Long eventId) {
+    public List<ParticipationRequestDto> getRequestList(
+            @PathVariable @Positive Long userId,
+            @PathVariable @Positive Long eventId
+    ) {
         log.info(REQUEST_GET_EVENT_REQUEST_LIST, userId);
         return eventService.getRequestList(userId, eventId);
     }
 
     @PatchMapping("/{eventId}/requests")
     public EventRequestStatusUpdateResult updateRequestStatus(
-            @PathVariable Long userId,
-            @PathVariable Long eventId,
+            @PathVariable @Positive Long userId,
+            @PathVariable @Positive Long eventId,
             @RequestBody EventRequestStatusUpdateRequest dto
     ) {
         log.info(REQUEST_UPDATE_EVENT_REQUEST_STATUS, eventId);

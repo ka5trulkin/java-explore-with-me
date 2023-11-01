@@ -2,6 +2,7 @@ package ru.practicum.main.category.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.main.category.dto.CategoryDto;
 import ru.practicum.main.category.service.CategoryServiceImpl;
@@ -18,6 +19,7 @@ import static ru.practicum.utils.message.LogMessage.*;
 @Slf4j
 @RequestMapping(path = CATEGORY_ADMIN_PREFIX)
 @RequiredArgsConstructor
+@Validated
 public class CategoryAdminController {
     private final CategoryServiceImpl categoryService;
 

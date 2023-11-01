@@ -3,6 +3,7 @@ package ru.practicum.main.event.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
@@ -10,6 +11,8 @@ import ru.practicum.main.event.model.Sort;
 import ru.practicum.main.event.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +25,7 @@ import static ru.practicum.utils.message.LogMessage.REQUEST_GET_EVENT_LIST;
 @Slf4j
 @RequestMapping(path = EVENT_PUBLIC_PREFIX)
 @RequiredArgsConstructor
+@Validated
 public class EventPublicController {
     private final EventService eventService;
 
@@ -34,8 +38,8 @@ public class EventPublicController {
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "false") boolean onlyAvailable,
             @RequestParam(required = false) Sort sort,
-            @RequestParam(defaultValue = "0") Integer from,
-            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive Integer size,
             HttpServletRequest request
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
@@ -48,7 +52,7 @@ public class EventPublicController {
     }
 
     @GetMapping("/{eventId}")
-    public EventFullDto getEvent(@PathVariable Long eventId, HttpServletRequest request) {
+    public EventFullDto getEvent(@PathVariable @Positive Long eventId, HttpServletRequest request) {
         log.info(REQUEST_GET_EVENT, eventId);
         return eventService.getEvent(eventId, request);
     }

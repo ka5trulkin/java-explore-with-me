@@ -2,6 +2,7 @@ package ru.practicum.main.user.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.main.user.dto.UserDto;
 import ru.practicum.main.user.service.UserService;
@@ -21,6 +22,7 @@ import static ru.practicum.utils.message.LogMessage.*;
 @Slf4j
 @RequestMapping(path = USER_ADMIN_PREFIX)
 @RequiredArgsConstructor
+@Validated
 public class UserController {
     private final UserService userService;
 

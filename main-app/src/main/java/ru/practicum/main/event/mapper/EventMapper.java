@@ -5,10 +5,7 @@ import lombok.experimental.UtilityClass;
 import ru.practicum.main.category.mapper.CategoryMapper;
 import ru.practicum.main.category.mogel.Category;
 import ru.practicum.main.category.storage.CategoryRepository;
-import ru.practicum.main.event.dto.EventCreateDto;
-import ru.practicum.main.event.dto.EventFullDto;
-import ru.practicum.main.event.dto.EventShortDto;
-import ru.practicum.main.event.dto.LocationDto;
+import ru.practicum.main.event.dto.*;
 import ru.practicum.main.event.model.Event;
 import ru.practicum.main.event.model.Location;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
@@ -67,14 +64,18 @@ public class EventMapper {
     public EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
                 .id(event.getId())
-                .description(event.getDescription())
-                .annotation(event.getAnnotation())
+                .text(
+                        EventDto.Text.builder()
+                                .description(event.getDescription())
+                                .annotation(event.getAnnotation())
+                                .title(event.getTitle())
+                        .build()
+                )
                 .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
                 .initiator(UserMapper.toUserShortDto(event.getInitiator()))
                 .paid(event.getPaid())
-                .title(event.getTitle())
                 .views(event.getViews())
                 .location(toLocationDto(event.getLocation()))
                 .requestModeration(event.getRequestModeration())
@@ -179,13 +180,17 @@ public class EventMapper {
     public EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .id(event.getId())
-                .description(event.getDescription())
-                .annotation(event.getAnnotation())
+                .text(
+                        EventDto.Text.builder()
+                                .description(event.getDescription())
+                                .annotation(event.getAnnotation())
+                                .title(event.getTitle())
+                                .build()
+                )
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
                 .initiator(UserMapper.toUserShortDto(event.getInitiator()))
                 .paid(event.getPaid())
-                .title(event.getTitle())
                 .views(event.getViews())
                 .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .build();
