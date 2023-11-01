@@ -251,7 +251,7 @@ public class EventServiceImpl implements EventService {
         log.info(EVENT_UPDATED, eventId);
         return EventMapper.toEventFullDto(event);
     }
-
+    
     @Override
     public List<ParticipationRequestDto> getRequestList(Long userId, Long eventId) {
         final List<EventRequest> requests = requestRepo.findAll(eventRequest.event.initiator.id.eq(userId)
