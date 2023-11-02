@@ -39,6 +39,14 @@ public class EventDto {
     @JsonFormat(pattern = DATE_TIME)
     private LocalDateTime eventDate;
 
+    public static Text textOf(String description, String annotation, String title) {
+        return Text.builder()
+                .description(description)
+                .annotation(annotation)
+                .title(title)
+                .build();
+    }
+
     public String getDescription() {
         return text.getDescription();
     }
@@ -49,14 +57,6 @@ public class EventDto {
 
     public String getTitle() {
         return text.getTitle();
-    }
-
-    public static Text textOf(String description, String annotation, String title) {
-        return Text.builder()
-                .description(description)
-                .annotation(annotation)
-                .title(title)
-                .build();
     }
 
     @SuperBuilder
