@@ -64,13 +64,7 @@ public class EventMapper {
     public EventFullDto toEventFullDto(Event event) {
         return EventFullDto.builder()
                 .id(event.getId())
-                .text(
-                        EventDto.Text.builder()
-                                .description(event.getDescription())
-                                .annotation(event.getAnnotation())
-                                .title(event.getTitle())
-                        .build()
-                )
+                .text(EventDto.textOf(event.getDescription(), event.getAnnotation(), event.getTitle()))
                 .category(CategoryMapper.toCategoryDto(event.getCategory()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
@@ -180,13 +174,7 @@ public class EventMapper {
     public EventShortDto toEventShortDto(Event event) {
         return EventShortDto.builder()
                 .id(event.getId())
-                .text(
-                        EventDto.Text.builder()
-                                .description(event.getDescription())
-                                .annotation(event.getAnnotation())
-                                .title(event.getTitle())
-                                .build()
-                )
+                .text(EventDto.textOf(event.getDescription(), event.getAnnotation(), event.getTitle()))
                 .confirmedRequests(event.getConfirmedRequests())
                 .eventDate(event.getEventDate())
                 .initiator(UserMapper.toUserShortDto(event.getInitiator()))

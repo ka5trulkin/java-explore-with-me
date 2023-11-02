@@ -51,6 +51,14 @@ public class EventDto {
         return text.getTitle();
     }
 
+    public static Text textOf(String description, String annotation, String title) {
+        return Text.builder()
+                .description(description)
+                .annotation(annotation)
+                .title(title)
+                .build();
+    }
+
     @SuperBuilder
     @NoArgsConstructor
     @Getter
