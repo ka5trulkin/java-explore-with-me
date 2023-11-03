@@ -29,5 +29,6 @@ public class ExceptionMessage {
     public static final String EVENT_REQUEST_NOT_FOUND = "Событие ID:'%s' не найдено";
     public static final String EVENT_NOT_FOUND = "Событие ID:'%s' не найдено";
     public static final String COMPILATION_NOT_FOUND = "Подборка событий ID:'%s' не найдена";
+    public static final String COMMENT_NOT_FOUND = "Комментарий ID:'%s' не найден";
     public static final String EVENT_START_END_BAD = "Конец события должен быть до его начала, дурень!";
 }

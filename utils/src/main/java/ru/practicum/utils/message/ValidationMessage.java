@@ -18,6 +18,9 @@ public class ValidationMessage {
     public static final String NAME_SHOULD_NOT_BE_BLANK = "Поле Name не должно быть пустым";
     public static final String NAME_BAD_SIZE_MAX_50 = "Количество символов в поле Name должно быть от 1 до 50";
     public static final String NAME_BAD_SIZE_MAX_250 = "Количество символов в поле Name должно быть от 2 до 250";
+    //text
+    public static final String TEXT_SHOULD_NOT_BE_BLANK = "Поле Text не должно быть пустым";
+    public static final String TEXT_BAD_SIZE_MAX_2000 = "Количество символов в поле Annotation должно быть от 1 до 2000";
     //time
     public static final String TIMESTAMP_SHOULD_NOT_BE_NULL = "Поле timestamp не должно быть пустым";
     public static final String TIME_SHOULD_NOT_BE_FUTURE = "Указанное время не должно быть в будущем";

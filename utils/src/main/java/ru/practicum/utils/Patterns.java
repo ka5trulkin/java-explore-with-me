@@ -16,6 +16,7 @@ public class Patterns {
     public static final String EVENT_PUBLIC_PREFIX = "/events";
     public static final String EVENT_REQUEST_PREFIX = "/users/{userId}/requests";
     public static final String EVENT_WITH_FIELDS = "EventWithFields";
+    public static final String COMMENT_WITH_FIELDS = "CommentWithFields";
     public static final String EVENT_REQUEST_WITH_FIELDS = "EventRequestWithFields";
     public static final String EVENT_PATH = String.join("", EVENT_PUBLIC_PREFIX, "/%d");
     public static final String COMPILATION_ADMIN_PREFIX = "/admin/compilations";

@@ -7,13 +7,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import ru.practicum.main.category.storage.CategoryRepository;
+import ru.practicum.main.event.dto.CommentDto;
 import ru.practicum.main.event.dto.EventCreateDto;
 import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
 import ru.practicum.main.event.mapper.EventMapper;
+import ru.practicum.main.event.model.Comment;
 import ru.practicum.main.event.model.Event;
+import ru.practicum.main.event.model.State;
+import ru.practicum.main.event.storage.CommentRepository;
 import ru.practicum.main.event.storage.EventRepository;
 import ru.practicum.main.event.storage.LocationRepository;
 import ru.practicum.main.event_request.dto.EventRequestStatusUpdateRequest;
@@ -22,7 +25,9 @@ import ru.practicum.main.event_request.dto.ParticipationRequestDto;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
 import ru.practicum.main.event_request.mapper.EventRequestMapper;
 import ru.practicum.main.event_request.model.EventRequest;
+import ru.practicum.main.event_request.model.Status;
 import ru.practicum.main.event_request.storage.EventRequestRepository;
+import ru.practicum.main.exception.child.CommentNotFoundException;
 import ru.practicum.main.exception.child.EventNotFoundException;
 import ru.practicum.main.exception.child.EventUpdateStatusRequestException;
 import ru.practicum.main.exception.child.UserOrEventNotFoundException;
@@ -34,18 +39,15 @@ import ru.practicum.utils.QPredicate;
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.time.LocalDateTime.now;
+import static ru.practicum.main.event.model.QComment.comment;
 import static ru.practicum.main.event.model.QEvent.event;
-import static ru.practicum.main.event.model.Sort.sortBy;
 import static ru.practicum.main.event.model.State.PUBLISHED;
 import static ru.practicum.main.event_request.model.QEventRequest.eventRequest;
-import static ru.practicum.main.event_request.model.Status.PENDING;
+import static ru.practicum.main.user.model.QUser.user;
 import static ru.practicum.utils.Patterns.EVENT_PATH;
 import static ru.practicum.utils.Patterns.MAIN_APP;
 import static ru.practicum.utils.message.LogMessage.*;
@@ -60,13 +62,9 @@ public class EventServiceImpl implements EventService {
     private final LocationRepository locationRepo;
     private final CategoryRepository categoryRepo;
     private final EventRequestRepository requestRepo;
+    private final CommentRepository commentRepo;
     private final StatsClient statsClient;
     private final int marginForRequestDelays = 1;
-
-    private Event getEventOrThrow(Long userId, Long eventId) {
-        return eventRepo.findOne(event.id.eq(eventId).and(event.initiator.id.eq(userId)))
-                .orElseThrow(() -> new UserOrEventNotFoundException(userId, eventId));
-    }
 
     private void checkRequestOnUpdate(Long userId, Long eventId, List<Long> requestIds) {
         final boolean isExists = eventRepo.exists(event.id.eq(eventId));
@@ -81,23 +79,16 @@ public class EventServiceImpl implements EventService {
         if (!isValid) {
             throw new EventUpdateStatusRequestException(eventId);
         }
-        final boolean isPending = requestRepo.exists(eventRequest.id.in(requestIds).and(eventRequest.status.eq(PENDING)));
+        final boolean isPending = requestRepo.exists(eventRequest.id.in(requestIds).and(eventRequest.status.eq(Status.PENDING)));
         if (!isPending) {
             throw new EventUpdateStatusRequestException(eventId);
         }
     }
 
-    private LocalDateTime getEarliestTime(List<Event> events) {
-        if (!events.isEmpty()) {
-            return events.stream()
-                    .min(Comparator.comparing(Event::getCreatedOn))
-                    .get()
-                    .getCreatedOn().minusHours(marginForRequestDelays);
-        } else return now();
-    }
-
-    private String getUri(Event event) {
-        return String.format(EVENT_PATH, event.getId());
+    private void checkCommentExists(Predicate predicate, Long commentId) {
+        if (!commentRepo.exists(predicate)) {
+            throw new CommentNotFoundException(commentId);
+        }
     }
 
     private void setEventViews(Event event, HttpServletRequest request) {
@@ -132,6 +123,11 @@ public class EventServiceImpl implements EventService {
         eventMap.keySet().forEach(uri -> this.pushStatsHit(request, uri));
     }
 
+    private Event getEventOrThrow(Long userId, Long eventId) {
+        return eventRepo.findOne(event.id.eq(eventId).and(event.initiator.id.eq(userId)))
+                .orElseThrow(() -> new UserOrEventNotFoundException(userId, eventId));
+    }
+
     private void pushStatsHit(HttpServletRequest request, String uri) {
         final StatsHitCreate stats = StatsHitCreate.builder()
                 .app(MAIN_APP)
@@ -142,7 +138,34 @@ public class EventServiceImpl implements EventService {
         statsClient.postHit(stats);
     }
 
-    private Predicate getPredicate(EventFilter filter) {
+    private LocalDateTime getEarliestTime(List<Event> events) {
+        if (!events.isEmpty()) {
+            return events.stream()
+                    .min(Comparator.comparing(Event::getCreatedOn))
+                    .get()
+                    .getCreatedOn().minusHours(marginForRequestDelays);
+        } else return now();
+    }
+
+    private String getUri(Event event) {
+        return String.format(EVENT_PATH, event.getId());
+    }
+
+    private Predicate getCommentPredicate(Long eventId, Long commentId) {
+        return QPredicate.builder()
+                .add(comment.id.eq(commentId))
+                .add(comment.event.id.eq(eventId))
+                .buildAnd();
+    }
+
+    private Predicate getCommentPredicate(Long userId, Long eventId, Long commentId) {
+        return QPredicate.builder()
+                .add(this.getCommentPredicate(eventId, commentId))
+                .add(comment.commentator.id.eq(userId))
+                .buildAnd();
+    }
+
+    private Predicate getEventPredicate(EventFilter filter) {
         return QPredicate.builder()
                 .add(filter.getCategories(), event.category.id::in)
                 .add(filter.getRangeStart(), event.createdOn::after)
@@ -152,7 +175,7 @@ public class EventServiceImpl implements EventService {
 
     private Predicate getPredicateAdmin(EventFilter filter) {
         return QPredicate.builder()
-                .add(this.getPredicate(filter))
+                .add(this.getEventPredicate(filter))
                 .add(filter.getUsers(), event.initiator.id::in)
                 .add(filter.getStates(), event.state::in)
                 .buildAnd();
@@ -169,12 +192,19 @@ public class EventServiceImpl implements EventService {
             predicateForAvailable = event.confirmedRequests.lt(event.participantLimit);
         }
         return QPredicate.builder()
-                .add(this.getPredicate(filter))
+                .add(this.getEventPredicate(filter))
                 .add(predicateForText)
                 .add(predicateForAvailable)
                 .add(filter.getRangeStart(), event.createdOn::after)
                 .add(filter.getPaid(), event.paid::eq)
                 .buildAnd();
+    }
+
+    private List<Comment> getComments(Collection<Event> events, PageRequest page) {
+        final List<Long> eventIds = events.stream()
+                .map(Event::getId)
+                .collect(Collectors.toList());
+        return commentRepo.findAll(comment.event.id.in(eventIds), page).toList();
     }
 
     @Override
@@ -189,9 +219,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEvent(Long userId, Long eventId) {
-        final Event entity = this.getEventOrThrow(userId, eventId);
+        final Event event = this.getEventOrThrow(userId, eventId);
         log.info(GET_EVENT, eventId);
-        return EventMapper.toEventFullDto(entity);
+        return EventMapper.toEventFullDto(event);
     }
 
     @Override
@@ -205,33 +235,36 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventFullDto> getEventList(Long userId, PageRequest page) {
+    public List<EventFullDto> getEventList(Long userId, PageRequest eventPage, PageRequest commentPage) {
         final Predicate predicate = event.initiator.id.eq(userId);
-        final List<Event> events = eventRepo.findAll(predicate, page).toList();
+        final List<Event> events = eventRepo.findAll(predicate, eventPage).toList();
+        final List<Comment> comments = this.getComments(events, commentPage);
         log.info(GET_EVENT_LIST_BY_INITIATOR, userId);
-        return EventMapper.toEventFullDto(events);
+        return EventMapper.toEventFullDto(events, comments);
     }
 
     @Override
     public List<EventFullDto> getEventList(EventFilter filter) {
         final Predicate predicate = this.getPredicateAdmin(filter);
         final List<Event> events = predicate == null
-                ? eventRepo.findAll(filter.getPage()).toList()
-                : eventRepo.findAll(predicate, filter.getPage()).toList();
+                ? eventRepo.findAll(filter.getEventPage()).toList()
+                : eventRepo.findAll(predicate, filter.getEventPage()).toList();
+        final List<Comment> comments = this.getComments(events, filter.getCommentPage());
         log.info(GET_EVENT_LIST);
-        return EventMapper.toEventFullDto(events);
+        return EventMapper.toEventFullDto(events, comments);
     }
 
     @Override
     @Transactional
-    public List<EventFullDto> getEventList(@Validated EventFilter filter, HttpServletRequest request) {
+    public List<EventFullDto> getEventList(EventFilter filter, HttpServletRequest request) {
         final Predicate predicate = this.getPredicatePublic(filter);
         final List<Event> events = predicate == null
-                ? eventRepo.findAll(filter.getPage()).toList()
-                : eventRepo.findAll(predicate, filter.getPage()).toList();
+                ? eventRepo.findAll(filter.getEventPage()).toList()
+                : eventRepo.findAll(predicate, filter.getEventPage()).toList();
         this.setEventViews(events, filter, request);
         log.info(GET_EVENT_LIST);
-        return EventMapper.toEventFullDto(sortBy(events, filter.getSort()));
+        final List<Comment> comments = this.getComments(events, filter.getCommentPage());
+        return EventMapper.toEventFullDto(events, comments);
     }
 
     @Override
@@ -267,5 +300,49 @@ public class EventServiceImpl implements EventService {
         final List<EventRequest> requests = requestRepo.findAll(eventRequest.id.in(dto.getRequestIds()));
         log.info(EVENT_REQUEST_STATUS_UPDATED, eventId);
         return EventRequestMapper.updateRequestStatus(requests, dto.getStatus());
+    }
+
+    @Override
+    @Transactional
+    public CommentDto postComment(Long userId, Long eventId, CommentDto dto) {
+        final Predicate predicate = QPredicate.builder()
+                .add(user.id.eq(userId))
+                .add(event.id.eq(eventId))
+                .add(event.state.ne(State.PENDING))
+                .buildAnd();
+        final Tuple userAndEvent = eventRepo.getUserAndEvent(predicate, manager);
+        final Comment comment = commentRepo.save(EventMapper.toComment(userAndEvent, dto));
+        comment.getEvent().addComment(comment);
+        log.info(COMMENT_ADDED, userId, eventId);
+        return EventMapper.toCommentDto(comment);
+    }
+
+    @Override
+    @Transactional
+    public CommentDto updateComment(Long userId, Long eventId, Long commentId, CommentDto dto) {
+        final Predicate predicate = this.getCommentPredicate(userId, eventId, commentId);
+        final Comment entity = commentRepo.findOne(predicate)
+                .orElseThrow(() -> new CommentNotFoundException(commentId));
+        EventMapper.updateComment(entity, dto);
+        log.info(COMMENT_UPDATED, commentId, userId, eventId);
+        return EventMapper.toCommentDto(entity);
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(Long userId, Long eventId, Long commentId) {
+        final Predicate predicate = this.getCommentPredicate(userId, eventId, commentId);
+        this.checkCommentExists(predicate, commentId);
+        commentRepo.deleteById(commentId);
+        log.info(COMMENT_DELETED, commentId, userId, eventId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteComment(Long eventId, Long commentId) {
+        final Predicate predicate = this.getCommentPredicate(eventId, commentId);
+        this.checkCommentExists(predicate, commentId);
+        commentRepo.deleteById(commentId);
+        log.info(COMMENT_DELETED_ADMIN, commentId, eventId);
     }
 }

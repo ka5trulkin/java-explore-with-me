@@ -6,6 +6,7 @@ import ru.practicum.main.category.mapper.CategoryMapper;
 import ru.practicum.main.category.mogel.Category;
 import ru.practicum.main.category.storage.CategoryRepository;
 import ru.practicum.main.event.dto.*;
+import ru.practicum.main.event.model.Comment;
 import ru.practicum.main.event.model.Event;
 import ru.practicum.main.event.model.Location;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
@@ -17,21 +18,24 @@ import ru.practicum.main.user.mapper.UserMapper;
 import ru.practicum.main.user.model.User;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static java.time.LocalDateTime.now;
 import static java.util.Objects.nonNull;
 import static ru.practicum.main.category.mogel.QCategory.category;
+import static ru.practicum.main.event.model.QEvent.event;
 import static ru.practicum.main.event.model.State.*;
 import static ru.practicum.main.user.model.QUser.user;
 import static ru.practicum.utils.message.ExceptionMessage.USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND;
+import static ru.practicum.utils.message.ExceptionMessage.USER_OR_EVENT_IN_TUPLE_NOT_FOUND;
 
 @UtilityClass
 public class EventMapper {
-    private void checkUserAndContentExists(Tuple tuple) {
+    private void checkTupleOrThrow(Tuple tuple, String message) {
         if (tuple == null) {
-            throw new NotFoundException(USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND);
+            throw new NotFoundException(message);
         }
     }
 
@@ -40,7 +44,7 @@ public class EventMapper {
     }
 
     public Event toEvent(EventCreateDto dto, Tuple tuple) {
-        checkUserAndContentExists(tuple);
+        checkTupleOrThrow(tuple, USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND);
         final User initiator = tuple.get(user);
         final Category categoryEvent = tuple.get(category);
         final Location location = toLocation(dto.getLocation());
@@ -61,7 +65,7 @@ public class EventMapper {
                 .build();
     }
 
-    public EventFullDto toEventFullDto(Event event) {
+    public EventFullDto toEventFullDto(Event event, Collection<Comment> comments) {
         return EventFullDto.builder()
                 .id(event.getId())
                 .text(EventDto.textOf(event.getDescription(), event.getAnnotation(), event.getTitle()))
@@ -77,12 +81,24 @@ public class EventMapper {
                 .createdOn(event.getCreatedOn())
                 .publishedOn(event.getPublishedOn())
                 .state(event.getState())
+                .comments(toCommentDto(comments))
                 .build();
     }
 
-    public List<EventFullDto> toEventFullDto(Collection<Event> events) {
+    public EventFullDto toEventFullDto(Event event) {
+        return toEventFullDto(event, Collections.emptyList());
+    }
+
+    public List<EventFullDto> toEventFullDto(Collection<Event> events, Collection<Comment> comments) {
         return events.stream()
-                .map(EventMapper::toEventFullDto)
+                .map(
+                        event -> toEventFullDto(
+                                event,
+                                comments.stream()
+                                        .filter(comment -> comment.getEvent().getId().equals(event.getId()))
+                                        .collect(Collectors.toList())
+                        )
+                )
                 .collect(Collectors.toList());
     }
 
@@ -144,8 +160,8 @@ public class EventMapper {
                 case CANCEL_REVIEW: event.setState(CANCELED); break;
                 case SEND_TO_REVIEW: event.setState(PENDING);
             }
-            updateEvent(event, dto, catRepo);
         }
+        updateEvent(event, dto, catRepo);
     }
 
     public void updateEventByAdmin(Event event, UpdateEventRequest dto, CategoryRepository catRepo) {
@@ -188,5 +204,38 @@ public class EventMapper {
         return events.stream()
                 .map(EventMapper::toEventShortDto)
                 .collect(Collectors.toList());
+    }
+
+    public static Comment toComment(Tuple tuple, CommentDto dto) {
+        checkTupleOrThrow(tuple, USER_OR_EVENT_IN_TUPLE_NOT_FOUND);
+        final User commentator = tuple.get(user);
+        final Event commentEvent = tuple.get(event);
+        return Comment.builder()
+                .text(dto.getText())
+                .event(commentEvent)
+                .commentator(commentator)
+                .build();
+    }
+
+    public static CommentDto toCommentDto(Comment comment) {
+        return CommentDto.builder()
+                .id(comment.getId())
+                .createdOn(comment.getCreatedOn())
+                .text(comment.getText())
+                .event(comment.getEvent().getId())
+                .commentator(UserMapper.toUserShortDto(comment.getCommentator()))
+                .build();
+    }
+
+    public static List<CommentDto> toCommentDto(Collection<Comment> comments) {
+        return comments.stream()
+                .map(EventMapper::toCommentDto)
+                .collect(Collectors.toList());
+    }
+
+    public static void updateComment(Comment entity, CommentDto dto) {
+        if (!entity.getText().equals(dto.getText())) {
+            entity.setText(dto.getText());
+        }
     }
 }
