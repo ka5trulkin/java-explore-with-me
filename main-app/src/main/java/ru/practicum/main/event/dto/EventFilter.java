@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.domain.PageRequest;
-import ru.practicum.main.event.model.Sort;
+import ru.practicum.main.event.model.EventSort;
 import ru.practicum.main.event.model.State;
 import ru.practicum.main.exception.base.RequestException;
-import ru.practicum.utils.PageApp;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.practicum.main.event.model.EventSort.COMMENT_DATE;
+import static ru.practicum.main.event.model.EventSort.sortBy;
+import static ru.practicum.utils.PageApp.ofStartingIndex;
 import static ru.practicum.utils.message.ExceptionMessage.EVENT_START_END_BAD;
 
 @SuperBuilder
@@ -23,11 +25,12 @@ public class EventFilter {
     private List<Long> categories;
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
-    private PageRequest page;
+    private PageRequest eventPage;
+    private PageRequest commentPage;
     private String text;
     private Boolean paid;
     private Boolean onlyAvailable;
-    private Sort sort;
+    private EventSort sort;
 
     private static void checkTimeIsValid(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
         if ((rangeStart != null) && (rangeEnd != null) && rangeStart.isAfter(rangeEnd)) {
@@ -42,9 +45,11 @@ public class EventFilter {
             LocalDateTime rangeStart,
             LocalDateTime rangeEnd,
             Boolean onlyAvailable,
-            Sort sort,
+            EventSort sort,
             Integer from,
-            Integer size
+            Integer size,
+            Integer commentFrom,
+            Integer commentSize
     ) {
         checkTimeIsValid(rangeStart, rangeEnd);
         return EventFilter.builder()
@@ -55,7 +60,8 @@ public class EventFilter {
                 .rangeEnd(rangeEnd)
                 .onlyAvailable(onlyAvailable)
                 .sort(sort)
-                .page(PageApp.ofStartingIndex(from, size))
+                .eventPage(ofStartingIndex(from, size, sortBy(sort)))
+                .commentPage(ofStartingIndex(commentFrom, commentSize, sortBy(COMMENT_DATE)))
                 .build();
     }
 
@@ -66,7 +72,9 @@ public class EventFilter {
             LocalDateTime rangeStart,
             LocalDateTime rangeEnd,
             Integer from,
-            Integer size
+            Integer size,
+            Integer commentFrom,
+            Integer commentSize
     ) {
         checkTimeIsValid(rangeStart, rangeEnd);
         return EventFilter.builder()
@@ -75,7 +83,8 @@ public class EventFilter {
                 .categories(categories)
                 .rangeStart(rangeStart)
                 .rangeEnd(rangeEnd)
-                .page(PageApp.ofStartingIndex(from, size))
+                .eventPage(ofStartingIndex(from, size))
+                .commentPage(ofStartingIndex(commentFrom, commentSize, sortBy(COMMENT_DATE)))
                 .build();
     }
 }

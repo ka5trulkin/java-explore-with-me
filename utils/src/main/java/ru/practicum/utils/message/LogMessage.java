@@ -48,13 +48,20 @@ public class LogMessage {
     public static final String REQUEST_DELETE_COMPILATION = "Запрос на удаление подборки событий ID:'{}'";
     public static final String REQUEST_GET_COMPILATION = "Запрос на получение подборки событий ID:'{}'";
     public static final String REQUEST_GET_COMPILATION_LIST = "Запрос на получение списка подборок событий";
-
     public static final String COMPILATION_ADDED = "Подборка событий ID:'{}'; Title:'{}' добавлена";
     public static final String COMPILATION_UPDATED = "Подборка событий ID:'{}' обновлена";
     public static final String COMPILATION_DELETED = "Подборка событий ID:'{}' удалена";
     public static final String GET_COMPILATION = "Получение подборки событий ID:'{}'";
     public static final String GET_COMPILATION_LIST = "Получение списка подборок событий";
-
+    //comment
+    public static final String REQUEST_ADD_COMMENT = "Запрос на добавление комментария пользователя ID:'{}' для события ID:'{}'";
+    public static final String REQUEST_UPDATE_COMMENT = "Запрос на обновление комментария ID:'{}' пользователя ID:'{}' для события ID:'{}'";
+    public static final String REQUEST_DELETE_COMMENT = "Запрос на удаление комментария ID:'{}' пользователя ID:'{}' для события ID:'{}'";
+    public static final String REQUEST_DELETE_COMMENT_ADMIN = "Запрос на удаление комментария ID:'{}' для события ID:'{}'";
+    public static final String COMMENT_ADDED = "Комментарий пользователя ID:'{}' для события ID:'{}' добавлен";
+    public static final String COMMENT_UPDATED = "Комментарий ID:'{}' пользователя ID:'{}' для события ID:'{}' обновлен";
+    public static final String COMMENT_DELETED = "Комментарий ID:'{}' пользователя ID:'{}' для события ID:'{}' удален";
+    public static final String COMMENT_DELETED_ADMIN = "Комментарий ID:'{}' для события ID:'{}' удален";
     //stats
     public static final String REQUEST_POST_HIT = "Запрос на сохранение информации обращения к URI:'{}'";
     public static final String POST_HIT = "Информация обращения к URI:'{}' сохранена";
