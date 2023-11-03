@@ -1,6 +1,7 @@
 package ru.practicum.main.event.service;
 
 import org.springframework.data.domain.PageRequest;
+import ru.practicum.main.event.dto.CommentDto;
 import ru.practicum.main.event.dto.EventCreateDto;
 import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
@@ -19,7 +20,7 @@ public interface EventService {
 
     EventFullDto getEvent(Long eventId, HttpServletRequest request);
 
-    List<EventFullDto> getEventList(Long userId, PageRequest page);
+    List<EventFullDto> getEventList(Long userId, PageRequest eventPage, PageRequest commentPage);
 
     List<EventFullDto> getEventList(EventFilter filter);
 
@@ -32,4 +33,12 @@ public interface EventService {
     List<ParticipationRequestDto> getRequestList(Long userId, Long eventId);
 
     EventRequestStatusUpdateResult updateRequestStatus(Long userId, Long eventId, EventRequestStatusUpdateRequest dto);
+
+    CommentDto postComment(Long userId, Long eventId, CommentDto dto);
+
+    CommentDto updateComment(Long userId, Long eventId, Long commentId, CommentDto dto);
+
+    void deleteComment(Long userId, Long eventId, Long commentId);
+
+    void deleteComment(Long eventId, Long commentId);
 }

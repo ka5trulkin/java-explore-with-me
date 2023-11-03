@@ -17,6 +17,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static ru.practicum.main.category.mogel.QCategory.category;
+import static ru.practicum.main.event.model.QEvent.event;
 import static ru.practicum.main.user.model.QUser.user;
 import static ru.practicum.utils.Patterns.EVENT_WITH_FIELDS;
 
@@ -29,14 +30,25 @@ public interface EventRepository extends JpaRepository<Event, Long>, QuerydslPre
                 .fetchOne();
     }
 
+    default Tuple getUserAndEvent(Predicate predicate, EntityManager manager) {
+        return new JPAQuery<Tuple>(manager)
+                .select(user, event)
+                .from(user, event)
+                .leftJoin(event.initiator).fetchJoin()
+                .leftJoin(event.category).fetchJoin()
+                .leftJoin(event.location).fetchJoin()
+                .where(predicate)
+                .fetchOne();
+    }
+
     @Override
-    @EntityGraph(value = EVENT_WITH_FIELDS)
+    @EntityGraph(EVENT_WITH_FIELDS)
     Optional<Event> findOne(@NonNull Predicate predicate);
 
     @Override
-    @EntityGraph(value = EVENT_WITH_FIELDS)
+    @EntityGraph(EVENT_WITH_FIELDS)
     Page<Event> findAll(@NonNull Predicate predicate, @NonNull Pageable pageable);
 
-    @EntityGraph(value = EVENT_WITH_FIELDS)
+    @EntityGraph(EVENT_WITH_FIELDS)
     Set<Event> findByIdIn(Collection<Long> ids);
 }
