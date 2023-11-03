@@ -2,8 +2,8 @@ package ru.practicum.stats.server.mapper;
 
 import com.querydsl.core.Tuple;
 import lombok.experimental.UtilityClass;
-import ru.practicum.stats.dto.dto.StatsHitCreate;
-import ru.practicum.stats.dto.dto.StatsHitResponse;
+import ru.practicum.stats.dto.StatsHitCreate;
+import ru.practicum.stats.dto.StatsHitResponse;
 import ru.practicum.stats.server.model.StatsHit;
 
 import java.util.Collection;
