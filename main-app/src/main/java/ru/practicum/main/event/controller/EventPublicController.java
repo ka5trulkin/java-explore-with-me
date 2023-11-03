@@ -40,15 +40,11 @@ public class EventPublicController {
             @RequestParam(required = false) EventSort sort,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive Integer size,
-            @RequestParam(defaultValue = "0") @PositiveOrZero Integer commentFrom,
-            @RequestParam(defaultValue = "10") @Positive Integer commentSize,
             HttpServletRequest request
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
         return eventService.getEventList(
-                EventFilter.of(
-                        text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, commentFrom, commentSize
-                ),
+                EventFilter.of(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size),
                 request
         );
     }

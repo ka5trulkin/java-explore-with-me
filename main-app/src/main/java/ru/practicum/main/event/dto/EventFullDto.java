@@ -7,7 +7,6 @@ import lombok.experimental.SuperBuilder;
 import ru.practicum.main.event.model.State;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static ru.practicum.utils.Patterns.DATE_TIME;
 
@@ -23,5 +22,4 @@ public class EventFullDto extends EventShortDto {
     @JsonFormat(pattern = DATE_TIME)
     private LocalDateTime publishedOn;
     private State state;
-    private List<CommentDto> comments;
 }

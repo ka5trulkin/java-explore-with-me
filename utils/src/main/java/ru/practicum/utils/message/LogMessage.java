@@ -56,10 +56,12 @@ public class LogMessage {
     //comment
     public static final String REQUEST_ADD_COMMENT = "Запрос на добавление комментария пользователя ID:'{}' для события ID:'{}'";
     public static final String REQUEST_UPDATE_COMMENT = "Запрос на обновление комментария ID:'{}' пользователя ID:'{}' для события ID:'{}'";
+    public static final String REQUEST_GET_COMMENT_LIST = "Запрос на получение списка комментариев для события ID:'{}'";
     public static final String REQUEST_DELETE_COMMENT = "Запрос на удаление комментария ID:'{}' пользователя ID:'{}' для события ID:'{}'";
     public static final String REQUEST_DELETE_COMMENT_ADMIN = "Запрос на удаление комментария ID:'{}' для события ID:'{}'";
     public static final String COMMENT_ADDED = "Комментарий пользователя ID:'{}' для события ID:'{}' добавлен";
     public static final String COMMENT_UPDATED = "Комментарий ID:'{}' пользователя ID:'{}' для события ID:'{}' обновлен";
+    public static final String GET_COMMENT_LIST = "Получение списка комментариев для события ID:'{}'";
     public static final String COMMENT_DELETED = "Комментарий ID:'{}' пользователя ID:'{}' для события ID:'{}' удален";
     public static final String COMMENT_DELETED_ADMIN = "Комментарий ID:'{}' для события ID:'{}' удален";
     //stats

@@ -4,6 +4,7 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.practicum.main.category.mogel.Category;
+import ru.practicum.main.event_comment.model.Comment;
 import ru.practicum.main.user.model.User;
 
 import javax.persistence.*;

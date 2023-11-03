@@ -11,7 +11,6 @@ import ru.practicum.main.exception.base.RequestException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.practicum.main.event.model.EventSort.COMMENT_DATE;
 import static ru.practicum.main.event.model.EventSort.sortBy;
 import static ru.practicum.utils.PageApp.ofStartingIndex;
 import static ru.practicum.utils.message.ExceptionMessage.EVENT_START_END_BAD;
@@ -26,7 +25,6 @@ public class EventFilter {
     private LocalDateTime rangeStart;
     private LocalDateTime rangeEnd;
     private PageRequest eventPage;
-    private PageRequest commentPage;
     private String text;
     private Boolean paid;
     private Boolean onlyAvailable;
@@ -47,9 +45,7 @@ public class EventFilter {
             Boolean onlyAvailable,
             EventSort sort,
             Integer from,
-            Integer size,
-            Integer commentFrom,
-            Integer commentSize
+            Integer size
     ) {
         checkTimeIsValid(rangeStart, rangeEnd);
         return EventFilter.builder()
@@ -61,7 +57,6 @@ public class EventFilter {
                 .onlyAvailable(onlyAvailable)
                 .sort(sort)
                 .eventPage(ofStartingIndex(from, size, sortBy(sort)))
-                .commentPage(ofStartingIndex(commentFrom, commentSize, sortBy(COMMENT_DATE)))
                 .build();
     }
 
@@ -72,9 +67,7 @@ public class EventFilter {
             LocalDateTime rangeStart,
             LocalDateTime rangeEnd,
             Integer from,
-            Integer size,
-            Integer commentFrom,
-            Integer commentSize
+            Integer size
     ) {
         checkTimeIsValid(rangeStart, rangeEnd);
         return EventFilter.builder()
@@ -84,7 +77,6 @@ public class EventFilter {
                 .rangeStart(rangeStart)
                 .rangeEnd(rangeEnd)
                 .eventPage(ofStartingIndex(from, size))
-                .commentPage(ofStartingIndex(commentFrom, commentSize, sortBy(COMMENT_DATE)))
                 .build();
     }
 }

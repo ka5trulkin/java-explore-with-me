@@ -1,8 +1,9 @@
-package ru.practicum.main.event.model;
+package ru.practicum.main.event_comment.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
+import ru.practicum.main.event.model.Event;
 import ru.practicum.main.user.model.User;
 
 import javax.persistence.*;

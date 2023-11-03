@@ -9,6 +9,7 @@ import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
 import ru.practicum.main.event.model.State;
 import ru.practicum.main.event.service.EventService;
+import ru.practicum.main.event_comment.service.CommentService;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
 import ru.practicum.utils.marker.AdminInfo;
 
@@ -21,7 +22,6 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static ru.practicum.utils.Patterns.DATE_TIME;
 import static ru.practicum.utils.Patterns.EVENT_ADMIN_PREFIX;
 import static ru.practicum.utils.message.LogMessage.*;
-import static ru.practicum.utils.message.LogMessage.REQUEST_DELETE_COMMENT_ADMIN;
 
 @RestController
 @Slf4j
@@ -30,6 +30,7 @@ import static ru.practicum.utils.message.LogMessage.REQUEST_DELETE_COMMENT_ADMIN
 @Validated
 public class EventAdminController {
     private final EventService eventService;
+    private final CommentService commentService;
 
     @GetMapping
     public List<EventFullDto> getEventList(
@@ -39,14 +40,10 @@ public class EventAdminController {
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeStart,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(defaultValue = "10") @Positive Integer size,
-            @RequestParam(defaultValue = "0") @PositiveOrZero Integer commentFrom,
-            @RequestParam(defaultValue = "10") @Positive Integer commentSize
+            @RequestParam(defaultValue = "10") @Positive Integer size
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
-        return eventService.getEventList(
-                EventFilter.of(users, states, categories, rangeStart, rangeEnd, from, size, commentFrom, commentSize)
-        );
+        return eventService.getEventList(EventFilter.of(users, states, categories, rangeStart, rangeEnd, from, size));
     }
 
     @PatchMapping("/{eventId}")
@@ -65,6 +62,6 @@ public class EventAdminController {
             @PathVariable @Positive Long commentId
     ) {
         log.info(REQUEST_DELETE_COMMENT_ADMIN, commentId, eventId);
-        eventService.deleteComment(eventId, commentId);
+        commentService.deleteComment(eventId, commentId);
     }
 }

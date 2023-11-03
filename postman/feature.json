@@ -300,25 +300,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{eventId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -355,25 +355,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{badId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{eventId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{badId}}"
 						}
 					]
 				}
@@ -410,25 +410,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{badId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -465,25 +465,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{badId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -520,25 +520,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{badId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -575,25 +575,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{badId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -630,25 +630,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{badId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -776,25 +776,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{eventId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -802,7 +802,7 @@
 			"response": []
 		},
 		{
-			"name": "Поиск события с комментарием после добавления",
+			"name": "Comment список",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -825,39 +825,19 @@
 							"\r",
 							"const source = pm.collectionVariables.get('response');\r",
 							"const target = pm.response.json()[0];\r",
-							"const comment = pm.response.json()[0].comments[0];\r",
+							"const subtarget = pm.response.json()[0].commentator;\r",
 							"\r",
-							"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, views, confirmedRequests, description, participantLimit, state, createdOn, publishedOn, location, requestModeration, comments\", function () {\r",
+							"pm.test(\"Событие должно содержать поля: id, createdOn, text, event, commentator\", function () {\r",
 							"pm.expect(target).to.have.property('id');\r",
-							"pm.expect(target).to.have.property('title');\r",
-							"pm.expect(target).to.have.property('annotation');\r",
-							"pm.expect(target).to.have.property('category');\r",
-							"pm.expect(target).to.have.property('paid');\r",
-							"pm.expect(target).to.have.property('eventDate');\r",
-							"pm.expect(target).to.have.property('initiator');\r",
-							"pm.expect(target).to.have.property('views');\r",
-							"pm.expect(target).to.have.property('confirmedRequests');\r",
-							"pm.expect(target).to.have.property('description');\r",
-							"pm.expect(target).to.have.property('participantLimit');\r",
-							"pm.expect(target).to.have.property('state');\r",
 							"pm.expect(target).to.have.property('createdOn');\r",
-							"pm.expect(target).to.have.property('publishedOn');\r",
-							"pm.expect(target).to.have.property('location');\r",
-							"pm.expect(target).to.have.property('requestModeration');\r",
-							"pm.expect(target).to.have.property('comments');\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.expect(target).to.have.property('text');\r",
+							"pm.expect(target).to.have.property('event');\r",
+							"pm.expect(target).to.have.property('commentator');\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Комментарий должен содержать поля: id, createdOn, text, event, commentator\", function () {\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.test(\"Коментатор должен содержать поля: id, name\", function () {\r",
+							"pm.expect(subtarget).to.have.property('id');\r",
+							"pm.expect(subtarget).to.have.property('name');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -873,29 +853,29 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/admin/events?users={{BibaId}}&rangeStart=2022-01-06%2013%3A30%3A38&rangeEnd=2097-09-06%2013%3A30%3A38",
+					"raw": "{{base_url}}/events/:eventId/comments?from=0&size=3",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"admin",
-						"events"
+						"events",
+						":eventId",
+						"comments"
 					],
 					"query": [
 						{
-							"key": "users",
-							"value": "{{BibaId}}",
-							"description": "список id пользователей, чьи события нужно найти"
+							"key": "from",
+							"value": "0"
 						},
 						{
-							"key": "rangeStart",
-							"value": "2022-01-06%2013%3A30%3A38",
-							"description": "дата и время не раньше которых должно произойти событие"
-						},
+							"key": "size",
+							"value": "3"
+						}
+					],
+					"variable": [
 						{
-							"key": "rangeEnd",
-							"value": "2097-09-06%2013%3A30%3A38",
-							"description": "дата и время не позже которых должно произойти событие"
+							"key": "eventId",
+							"value": "{{eventId}}"
 						}
 					]
 				},
@@ -933,23 +913,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{badId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -957,6 +933,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{badId}}"
 						}
 					]
 				}
@@ -993,23 +973,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{badId}}"
@@ -1017,6 +993,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1053,23 +1033,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{badId}}"
@@ -1077,6 +1053,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1113,23 +1093,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{badId}}"
@@ -1137,6 +1113,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1173,23 +1153,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{badId}}"
@@ -1197,6 +1173,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1233,23 +1213,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{badId}}"
@@ -1257,6 +1233,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1302,7 +1282,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"text\": \"comment update\"\r\n}",
+					"raw": "{\r\n    \"text\": \"comment updated\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -1310,23 +1290,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -1334,6 +1310,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1341,7 +1321,7 @@
 			"response": []
 		},
 		{
-			"name": "Поиск события с комментарием после обновления",
+			"name": "Comment список после обновления",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1364,39 +1344,23 @@
 							"\r",
 							"const source = pm.collectionVariables.get('response');\r",
 							"const target = pm.response.json()[0];\r",
-							"const comment = pm.response.json()[0].comments[0];\r",
+							"const subtarget = pm.response.json()[0].commentator;\r",
 							"\r",
-							"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, views, confirmedRequests, description, participantLimit, state, createdOn, publishedOn, location, requestModeration, comments\", function () {\r",
+							"pm.test(\"Событие должно содержать поля: id, createdOn, text, event, commentator\", function () {\r",
 							"pm.expect(target).to.have.property('id');\r",
-							"pm.expect(target).to.have.property('title');\r",
-							"pm.expect(target).to.have.property('annotation');\r",
-							"pm.expect(target).to.have.property('category');\r",
-							"pm.expect(target).to.have.property('paid');\r",
-							"pm.expect(target).to.have.property('eventDate');\r",
-							"pm.expect(target).to.have.property('initiator');\r",
-							"pm.expect(target).to.have.property('views');\r",
-							"pm.expect(target).to.have.property('confirmedRequests');\r",
-							"pm.expect(target).to.have.property('description');\r",
-							"pm.expect(target).to.have.property('participantLimit');\r",
-							"pm.expect(target).to.have.property('state');\r",
 							"pm.expect(target).to.have.property('createdOn');\r",
-							"pm.expect(target).to.have.property('publishedOn');\r",
-							"pm.expect(target).to.have.property('location');\r",
-							"pm.expect(target).to.have.property('requestModeration');\r",
-							"pm.expect(target).to.have.property('comments');\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.expect(target).to.have.property('text');\r",
+							"pm.expect(target).to.have.property('event');\r",
+							"pm.expect(target).to.have.property('commentator');\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Комментарий должен содержать поля: id, createdOn, text, event, commentator\", function () {\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.test(\"Текст комментария должен быть обновлен\", function () {\r",
+							"pm.expect(target.text, '\"text\" должно быть \"comment updated\"').to.eql('comment updated');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Коментатор должен содержать поля: id, name\", function () {\r",
+							"pm.expect(subtarget).to.have.property('id');\r",
+							"pm.expect(subtarget).to.have.property('name');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1412,29 +1376,29 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/admin/events?users={{BibaId}}&rangeStart=2022-01-06%2013%3A30%3A38&rangeEnd=2097-09-06%2013%3A30%3A38",
+					"raw": "{{base_url}}/events/:eventId/comments?from=0&size=3",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"admin",
-						"events"
+						"events",
+						":eventId",
+						"comments"
 					],
 					"query": [
 						{
-							"key": "users",
-							"value": "{{BibaId}}",
-							"description": "список id пользователей, чьи события нужно найти"
+							"key": "from",
+							"value": "0"
 						},
 						{
-							"key": "rangeStart",
-							"value": "2022-01-06%2013%3A30%3A38",
-							"description": "дата и время не раньше которых должно произойти событие"
-						},
+							"key": "size",
+							"value": "3"
+						}
+					],
+					"variable": [
 						{
-							"key": "rangeEnd",
-							"value": "2097-09-06%2013%3A30%3A38",
-							"description": "дата и время не позже которых должно произойти событие"
+							"key": "eventId",
+							"value": "{{eventId}}"
 						}
 					]
 				},
@@ -1504,23 +1468,19 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BobaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -1528,6 +1488,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BobaId}}"
 						}
 					]
 				},
@@ -1595,23 +1559,19 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -1619,10 +1579,89 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				},
 				"description": "Обратите внимание: с категорий не должно быть связано ни одного события."
+			},
+			"response": []
+		},
+		{
+			"name": "Comment список после удаления",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+							"    pm.response.to.be.ok;    \r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"const source = pm.collectionVariables.get('response');\r",
+							"const target = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Список комментариев должен быть пустым\", function () {\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(target.length, 'List length must be 0').to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/events/:eventId/comments?from=0&size=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"events",
+						":eventId",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "3"
+						}
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": "{{eventId}}"
+						}
+					]
+				},
+				"description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
 			},
 			"response": []
 		},
@@ -1656,23 +1695,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -1680,6 +1715,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1738,25 +1777,25 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments",
+					"raw": "{{base_url}}/events/:eventId/comments/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
-						"comments"
+						"comments",
+						"users",
+						":userId"
 					],
 					"variable": [
 						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
-						{
 							"key": "eventId",
 							"value": "{{eventId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
@@ -1764,7 +1803,7 @@
 			"response": []
 		},
 		{
-			"name": "Поиск события с комментарием",
+			"name": "Comment список после добавления комментария",
 			"event": [
 				{
 					"listen": "prerequest",
@@ -1787,39 +1826,23 @@
 							"\r",
 							"const source = pm.collectionVariables.get('response');\r",
 							"const target = pm.response.json()[0];\r",
-							"const comment = pm.response.json()[0].comments[0];\r",
+							"const subtarget = pm.response.json()[0].commentator;\r",
 							"\r",
-							"pm.test(\"Событие должно содержать поля: id, title, annotation, category, paid, eventDate, initiator, views, confirmedRequests, description, participantLimit, state, createdOn, publishedOn, location, requestModeration, comments\", function () {\r",
+							"pm.test(\"Событие должно содержать поля: id, createdOn, text, event, commentator\", function () {\r",
 							"pm.expect(target).to.have.property('id');\r",
-							"pm.expect(target).to.have.property('title');\r",
-							"pm.expect(target).to.have.property('annotation');\r",
-							"pm.expect(target).to.have.property('category');\r",
-							"pm.expect(target).to.have.property('paid');\r",
-							"pm.expect(target).to.have.property('eventDate');\r",
-							"pm.expect(target).to.have.property('initiator');\r",
-							"pm.expect(target).to.have.property('views');\r",
-							"pm.expect(target).to.have.property('confirmedRequests');\r",
-							"pm.expect(target).to.have.property('description');\r",
-							"pm.expect(target).to.have.property('participantLimit');\r",
-							"pm.expect(target).to.have.property('state');\r",
 							"pm.expect(target).to.have.property('createdOn');\r",
-							"pm.expect(target).to.have.property('publishedOn');\r",
-							"pm.expect(target).to.have.property('location');\r",
-							"pm.expect(target).to.have.property('requestModeration');\r",
-							"pm.expect(target).to.have.property('comments');\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.expect(target).to.have.property('text');\r",
+							"pm.expect(target).to.have.property('event');\r",
+							"pm.expect(target).to.have.property('commentator');\r",
 							"});\r",
 							"\r",
-							"pm.test(\"Комментарий должен содержать поля: id, createdOn, text, event, commentator\", function () {\r",
-							"pm.expect(comment).to.have.property('id');\r",
-							"pm.expect(comment).to.have.property('createdOn');\r",
-							"pm.expect(comment).to.have.property('text');\r",
-							"pm.expect(comment).to.have.property('event');\r",
-							"pm.expect(comment).to.have.property('commentator');\r",
+							"pm.test(\"Текст комментария должен быть обновлен\", function () {\r",
+							"pm.expect(target.text, '\"text\" должно быть \"comment\"').to.eql('comment');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Коментатор должен содержать поля: id, name\", function () {\r",
+							"pm.expect(subtarget).to.have.property('id');\r",
+							"pm.expect(subtarget).to.have.property('name');\r",
 							"});"
 						],
 						"type": "text/javascript"
@@ -1835,29 +1858,29 @@
 					}
 				],
 				"url": {
-					"raw": "{{base_url}}/admin/events?users={{BibaId}}&rangeStart=2022-01-06%2013%3A30%3A38&rangeEnd=2097-09-06%2013%3A30%3A38",
+					"raw": "{{base_url}}/events/:eventId/comments?from=0&size=3",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"admin",
-						"events"
+						"events",
+						":eventId",
+						"comments"
 					],
 					"query": [
 						{
-							"key": "users",
-							"value": "{{BibaId}}",
-							"description": "список id пользователей, чьи события нужно найти"
+							"key": "from",
+							"value": "0"
 						},
 						{
-							"key": "rangeStart",
-							"value": "2022-01-06%2013%3A30%3A38",
-							"description": "дата и время не раньше которых должно произойти событие"
-						},
+							"key": "size",
+							"value": "3"
+						}
+					],
+					"variable": [
 						{
-							"key": "rangeEnd",
-							"value": "2097-09-06%2013%3A30%3A38",
-							"description": "дата и время не позже которых должно произойти событие"
+							"key": "eventId",
+							"value": "{{eventId}}"
 						}
 					]
 				},
@@ -1952,6 +1975,81 @@
 			"response": []
 		},
 		{
+			"name": "Comment список после удаления администратором",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Ответ должен содержать код статуса 200 и данные в формате json\", function () {\r",
+							"    pm.response.to.be.ok;    \r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"const source = pm.collectionVariables.get('response');\r",
+							"const target = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Список комментариев должен быть пустым\", function () {\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(target.length, 'List length must be 0').to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/events/:eventId/comments?from=0&size=3",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"events",
+						":eventId",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "3"
+						}
+					],
+					"variable": [
+						{
+							"key": "eventId",
+							"value": "{{eventId}}"
+						}
+					]
+				},
+				"description": "Эндпоинт возвращает полную информацию обо всех событиях подходящих под переданные условия"
+			},
+			"response": []
+		},
+		{
 			"name": "Comment попытка обновления удаленного администратором комментария",
 			"event": [
 				{
@@ -1981,23 +2079,19 @@
 					}
 				},
 				"url": {
-					"raw": "{{base_url}}/users/:userId/events/:eventId/comments/:commentId",
+					"raw": "{{base_url}}/events/:eventId/comments/:commentId/users/:userId",
 					"host": [
 						"{{base_url}}"
 					],
 					"path": [
-						"users",
-						":userId",
 						"events",
 						":eventId",
 						"comments",
-						":commentId"
+						":commentId",
+						"users",
+						":userId"
 					],
 					"variable": [
-						{
-							"key": "userId",
-							"value": "{{BibaId}}"
-						},
 						{
 							"key": "eventId",
 							"value": "{{eventId}}"
@@ -2005,6 +2099,10 @@
 						{
 							"key": "commentId",
 							"value": "{{commentId}}"
+						},
+						{
+							"key": "userId",
+							"value": "{{BibaId}}"
 						}
 					]
 				}
