@@ -52,7 +52,7 @@ public class CommentServiceImpl implements CommentService {
                 .add(comment.commentator.id.eq(userId))
                 .buildAnd();
     }
-//
+
     @Override
     @Transactional
     public CommentDto postComment(Long userId, Long eventId, CommentDto dto) {
