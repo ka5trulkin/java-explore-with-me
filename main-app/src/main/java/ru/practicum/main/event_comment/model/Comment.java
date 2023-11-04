@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static ru.practicum.utils.Patterns.COMMENT_WITH_FIELDS;
 
@@ -37,11 +36,11 @@ public class Comment {
     private LocalDateTime createdOn;
     @Column(name = "text", nullable = false, length = 2000)
     private String text;
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "event_id", nullable = false, referencedColumnName = "id")
     @ToString.Exclude
     private Event event;
-    @ManyToOne(fetch = LAZY)
+    @ManyToOne
     @JoinColumn(name = "commentator_id", nullable = false, referencedColumnName = "id")
     @ToString.Exclude
     private User commentator;

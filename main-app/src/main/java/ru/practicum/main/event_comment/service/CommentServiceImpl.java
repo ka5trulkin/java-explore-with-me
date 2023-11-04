@@ -63,7 +63,6 @@ public class CommentServiceImpl implements CommentService {
                 .buildAnd();
         final Tuple userAndEvent = eventRepo.getUserAndEvent(predicate, manager);
         final Comment comment = commentRepo.save(CommentMapper.toComment(userAndEvent, dto));
-        comment.getEvent().addComment(comment);
         log.info(COMMENT_ADDED, userId, eventId);
         return CommentMapper.toCommentDto(comment);
     }

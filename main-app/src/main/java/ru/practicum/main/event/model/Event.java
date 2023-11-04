@@ -4,17 +4,13 @@ import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.practicum.main.category.mogel.Category;
-import ru.practicum.main.event_comment.model.Comment;
 import ru.practicum.main.user.model.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import static javax.persistence.EnumType.ORDINAL;
-import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 import static ru.practicum.utils.Patterns.EVENT_WITH_FIELDS;
 
@@ -76,19 +72,6 @@ public class Event {
     private State state;
     @Column(name = "views", nullable = false)
     private Integer views;
-    @OneToMany(mappedBy = "event", orphanRemoval = true, fetch = LAZY)
-    @ToString.Exclude
-    private Set<Comment> comments = new HashSet<>();
-
-    public void addComment(Comment comment) {
-        this.comments.add(comment);
-        comment.setEvent(this);
-    }
-
-    public void removeComment(Comment comment) {
-        this.comments.remove(comment);
-        comment.setEvent(null);
-    }
 
     @Override
     public boolean equals(Object o) {
