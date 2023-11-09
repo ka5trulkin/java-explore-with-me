@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 import ru.practicum.main.category.storage.CategoryRepository;
 import ru.practicum.main.event.dto.EventCreateDto;
 import ru.practicum.main.event.dto.EventFilter;
@@ -22,6 +21,7 @@ import ru.practicum.main.event_request.dto.ParticipationRequestDto;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
 import ru.practicum.main.event_request.mapper.EventRequestMapper;
 import ru.practicum.main.event_request.model.EventRequest;
+import ru.practicum.main.event_request.model.Status;
 import ru.practicum.main.event_request.storage.EventRequestRepository;
 import ru.practicum.main.exception.child.EventNotFoundException;
 import ru.practicum.main.exception.child.EventUpdateStatusRequestException;
@@ -42,10 +42,8 @@ import java.util.stream.Collectors;
 
 import static java.time.LocalDateTime.now;
 import static ru.practicum.main.event.model.QEvent.event;
-import static ru.practicum.main.event.model.Sort.sortBy;
 import static ru.practicum.main.event.model.State.PUBLISHED;
 import static ru.practicum.main.event_request.model.QEventRequest.eventRequest;
-import static ru.practicum.main.event_request.model.Status.PENDING;
 import static ru.practicum.utils.Patterns.EVENT_PATH;
 import static ru.practicum.utils.Patterns.MAIN_APP;
 import static ru.practicum.utils.message.LogMessage.*;
@@ -63,11 +61,6 @@ public class EventServiceImpl implements EventService {
     private final StatsClient statsClient;
     private final int marginForRequestDelays = 1;
 
-    private Event getEventOrThrow(Long userId, Long eventId) {
-        return eventRepo.findOne(event.id.eq(eventId).and(event.initiator.id.eq(userId)))
-                .orElseThrow(() -> new UserOrEventNotFoundException(userId, eventId));
-    }
-
     private void checkRequestOnUpdate(Long userId, Long eventId, List<Long> requestIds) {
         final boolean isExists = eventRepo.exists(event.id.eq(eventId));
         if (!isExists) {
@@ -81,23 +74,10 @@ public class EventServiceImpl implements EventService {
         if (!isValid) {
             throw new EventUpdateStatusRequestException(eventId);
         }
-        final boolean isPending = requestRepo.exists(eventRequest.id.in(requestIds).and(eventRequest.status.eq(PENDING)));
+        final boolean isPending = requestRepo.exists(eventRequest.id.in(requestIds).and(eventRequest.status.eq(Status.PENDING)));
         if (!isPending) {
             throw new EventUpdateStatusRequestException(eventId);
         }
-    }
-
-    private LocalDateTime getEarliestTime(List<Event> events) {
-        if (!events.isEmpty()) {
-            return events.stream()
-                    .min(Comparator.comparing(Event::getCreatedOn))
-                    .get()
-                    .getCreatedOn().minusHours(marginForRequestDelays);
-        } else return now();
-    }
-
-    private String getUri(Event event) {
-        return String.format(EVENT_PATH, event.getId());
     }
 
     private void setEventViews(Event event, HttpServletRequest request) {
@@ -132,6 +112,11 @@ public class EventServiceImpl implements EventService {
         eventMap.keySet().forEach(uri -> this.pushStatsHit(request, uri));
     }
 
+    private Event getEventOrThrow(Long userId, Long eventId) {
+        return eventRepo.findOne(event.id.eq(eventId).and(event.initiator.id.eq(userId)))
+                .orElseThrow(() -> new UserOrEventNotFoundException(userId, eventId));
+    }
+
     private void pushStatsHit(HttpServletRequest request, String uri) {
         final StatsHitCreate stats = StatsHitCreate.builder()
                 .app(MAIN_APP)
@@ -142,7 +127,20 @@ public class EventServiceImpl implements EventService {
         statsClient.postHit(stats);
     }
 
-    private Predicate getPredicate(EventFilter filter) {
+    private LocalDateTime getEarliestTime(List<Event> events) {
+        if (!events.isEmpty()) {
+            return events.stream()
+                    .min(Comparator.comparing(Event::getCreatedOn))
+                    .get()
+                    .getCreatedOn().minusHours(marginForRequestDelays);
+        } else return now();
+    }
+
+    private String getUri(Event event) {
+        return String.format(EVENT_PATH, event.getId());
+    }
+
+    private Predicate getEventPredicate(EventFilter filter) {
         return QPredicate.builder()
                 .add(filter.getCategories(), event.category.id::in)
                 .add(filter.getRangeStart(), event.createdOn::after)
@@ -152,7 +150,7 @@ public class EventServiceImpl implements EventService {
 
     private Predicate getPredicateAdmin(EventFilter filter) {
         return QPredicate.builder()
-                .add(this.getPredicate(filter))
+                .add(this.getEventPredicate(filter))
                 .add(filter.getUsers(), event.initiator.id::in)
                 .add(filter.getStates(), event.state::in)
                 .buildAnd();
@@ -169,7 +167,7 @@ public class EventServiceImpl implements EventService {
             predicateForAvailable = event.confirmedRequests.lt(event.participantLimit);
         }
         return QPredicate.builder()
-                .add(this.getPredicate(filter))
+                .add(this.getEventPredicate(filter))
                 .add(predicateForText)
                 .add(predicateForAvailable)
                 .add(filter.getRangeStart(), event.createdOn::after)
@@ -189,9 +187,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEvent(Long userId, Long eventId) {
-        final Event entity = this.getEventOrThrow(userId, eventId);
+        final Event event = this.getEventOrThrow(userId, eventId);
         log.info(GET_EVENT, eventId);
-        return EventMapper.toEventFullDto(entity);
+        return EventMapper.toEventFullDto(event);
     }
 
     @Override
@@ -205,9 +203,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventFullDto> getEventList(Long userId, PageRequest page) {
+    public List<EventFullDto> getEventList(Long userId, PageRequest eventPage) {
         final Predicate predicate = event.initiator.id.eq(userId);
-        final List<Event> events = eventRepo.findAll(predicate, page).toList();
+        final List<Event> events = eventRepo.findAll(predicate, eventPage).toList();
         log.info(GET_EVENT_LIST_BY_INITIATOR, userId);
         return EventMapper.toEventFullDto(events);
     }
@@ -216,22 +214,22 @@ public class EventServiceImpl implements EventService {
     public List<EventFullDto> getEventList(EventFilter filter) {
         final Predicate predicate = this.getPredicateAdmin(filter);
         final List<Event> events = predicate == null
-                ? eventRepo.findAll(filter.getPage()).toList()
-                : eventRepo.findAll(predicate, filter.getPage()).toList();
+                ? eventRepo.findAll(filter.getEventPage()).toList()
+                : eventRepo.findAll(predicate, filter.getEventPage()).toList();
         log.info(GET_EVENT_LIST);
         return EventMapper.toEventFullDto(events);
     }
 
     @Override
     @Transactional
-    public List<EventFullDto> getEventList(@Validated EventFilter filter, HttpServletRequest request) {
+    public List<EventFullDto> getEventList(EventFilter filter, HttpServletRequest request) {
         final Predicate predicate = this.getPredicatePublic(filter);
         final List<Event> events = predicate == null
-                ? eventRepo.findAll(filter.getPage()).toList()
-                : eventRepo.findAll(predicate, filter.getPage()).toList();
+                ? eventRepo.findAll(filter.getEventPage()).toList()
+                : eventRepo.findAll(predicate, filter.getEventPage()).toList();
         this.setEventViews(events, filter, request);
         log.info(GET_EVENT_LIST);
-        return EventMapper.toEventFullDto(sortBy(events, filter.getSort()));
+        return EventMapper.toEventFullDto(events);
     }
 
     @Override

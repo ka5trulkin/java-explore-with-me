@@ -9,7 +9,6 @@ import ru.practicum.main.event.dto.*;
 import ru.practicum.main.event.model.Event;
 import ru.practicum.main.event.model.Location;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
-import ru.practicum.main.exception.base.NotFoundException;
 import ru.practicum.main.exception.child.CategoryNotFoundException;
 import ru.practicum.main.exception.child.EventCancelingException;
 import ru.practicum.main.exception.child.EventPublishingException;
@@ -28,19 +27,9 @@ import static ru.practicum.main.user.model.QUser.user;
 import static ru.practicum.utils.message.ExceptionMessage.USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND;
 
 @UtilityClass
-public class EventMapper {
-    private void checkUserAndContentExists(Tuple tuple) {
-        if (tuple == null) {
-            throw new NotFoundException(USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND);
-        }
-    }
-
-    private boolean notBlank(String string) {
-        return string != null && !string.isBlank();
-    }
-
+public class EventMapper extends EventAbstractMapper {
     public Event toEvent(EventCreateDto dto, Tuple tuple) {
-        checkUserAndContentExists(tuple);
+        checkTupleOrThrow(tuple, USER_OR_CATEGORY_IN_TUPLE_NOT_FOUND);
         final User initiator = tuple.get(user);
         final Category categoryEvent = tuple.get(category);
         final Location location = toLocation(dto.getLocation());
@@ -144,8 +133,8 @@ public class EventMapper {
                 case CANCEL_REVIEW: event.setState(CANCELED); break;
                 case SEND_TO_REVIEW: event.setState(PENDING);
             }
-            updateEvent(event, dto, catRepo);
         }
+        updateEvent(event, dto, catRepo);
     }
 
     public void updateEventByAdmin(Event event, UpdateEventRequest dto, CategoryRepository catRepo) {

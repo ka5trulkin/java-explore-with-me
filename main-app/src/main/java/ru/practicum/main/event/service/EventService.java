@@ -19,7 +19,7 @@ public interface EventService {
 
     EventFullDto getEvent(Long eventId, HttpServletRequest request);
 
-    List<EventFullDto> getEventList(Long userId, PageRequest page);
+    List<EventFullDto> getEventList(Long userId, PageRequest eventPage);
 
     List<EventFullDto> getEventList(EventFilter filter);
 

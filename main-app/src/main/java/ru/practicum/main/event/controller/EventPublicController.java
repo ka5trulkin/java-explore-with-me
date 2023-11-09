@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
-import ru.practicum.main.event.model.Sort;
+import ru.practicum.main.event.model.EventSort;
 import ru.practicum.main.event.service.EventService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,16 +37,14 @@ public class EventPublicController {
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeStart,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME) LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "false") boolean onlyAvailable,
-            @RequestParam(required = false) Sort sort,
+            @RequestParam(required = false) EventSort sort,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive Integer size,
             HttpServletRequest request
     ) {
         log.info(REQUEST_GET_EVENT_LIST);
         return eventService.getEventList(
-                EventFilter.of(
-                        text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size
-                ),
+                EventFilter.of(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size),
                 request
         );
     }

@@ -35,8 +35,8 @@ public class Event {
     @Column(name = "id")
     private Long id;
     @ManyToOne
-    @ToString.Exclude
     @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Category category;
     @Column(name = "annotation", nullable = false, length = 2000)
     private String annotation;
@@ -47,12 +47,12 @@ public class Event {
     @Column(name = "eventDate", nullable = false)
     private LocalDateTime eventDate;
     @OneToOne
-    @ToString.Exclude
     @JoinColumn(name = "location_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Location location;
     @ManyToOne
-    @ToString.Exclude
     @JoinColumn(name = "initiator_id", referencedColumnName = "id")
+    @ToString.Exclude
     private User initiator;
     @Column(name = "createdOn", nullable = false)
     @CreationTimestamp

@@ -35,15 +35,14 @@ public class EventPrivateController {
     @ResponseStatus(CREATED)
     public EventFullDto postEvent(
             @PathVariable @Positive Long userId,
-            @Validated(CreateInfo.class)
-            @RequestBody EventCreateDto dto
+            @Validated(CreateInfo.class) @RequestBody EventCreateDto dto
     ) {
         log.info(REQUEST_ADD_EVENT, dto.getTitle());
         return eventService.postEvent(userId, dto);
     }
 
     @GetMapping("/{eventId}")
-    public EventFullDto getEvent(@PathVariable @Positive Long userId, @Positive @PathVariable Long eventId) {
+    public EventFullDto getEvent(@PathVariable @Positive Long userId, @PathVariable @Positive Long eventId) {
         log.info(REQUEST_GET_EVENT, eventId);
         return eventService.getEvent(userId, eventId);
     }

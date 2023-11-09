@@ -9,6 +9,7 @@ import ru.practicum.main.event.dto.EventFilter;
 import ru.practicum.main.event.dto.EventFullDto;
 import ru.practicum.main.event.model.State;
 import ru.practicum.main.event.service.EventService;
+import ru.practicum.main.event_comment.service.CommentService;
 import ru.practicum.main.event_request.dto.UpdateEventRequest;
 import ru.practicum.utils.marker.AdminInfo;
 
@@ -17,10 +18,10 @@ import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 import static ru.practicum.utils.Patterns.DATE_TIME;
 import static ru.practicum.utils.Patterns.EVENT_ADMIN_PREFIX;
-import static ru.practicum.utils.message.LogMessage.REQUEST_GET_EVENT_LIST;
-import static ru.practicum.utils.message.LogMessage.REQUEST_UPDATE_EVENT;
+import static ru.practicum.utils.message.LogMessage.*;
 
 @RestController
 @Slf4j
@@ -29,6 +30,7 @@ import static ru.practicum.utils.message.LogMessage.REQUEST_UPDATE_EVENT;
 @Validated
 public class EventAdminController {
     private final EventService eventService;
+    private final CommentService commentService;
 
     @GetMapping
     public List<EventFullDto> getEventList(
@@ -51,5 +53,15 @@ public class EventAdminController {
     ) {
         log.info(REQUEST_UPDATE_EVENT, eventId);
         return eventService.updateEvent(eventId, dto);
+    }
+
+    @DeleteMapping("/{eventId}/comments/{commentId}")
+    @ResponseStatus(NO_CONTENT)
+    public void deleteComment(
+            @PathVariable @Positive Long eventId,
+            @PathVariable @Positive Long commentId
+    ) {
+        log.info(REQUEST_DELETE_COMMENT_ADMIN, commentId, eventId);
+        commentService.deleteComment(eventId, commentId);
     }
 }

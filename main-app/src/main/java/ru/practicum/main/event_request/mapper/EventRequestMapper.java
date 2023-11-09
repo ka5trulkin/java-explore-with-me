@@ -2,12 +2,12 @@ package ru.practicum.main.event_request.mapper;
 
 import com.querydsl.core.Tuple;
 import lombok.experimental.UtilityClass;
+import ru.practicum.main.event.mapper.EventAbstractMapper;
 import ru.practicum.main.event.model.Event;
 import ru.practicum.main.event_request.dto.EventRequestStatusUpdateResult;
 import ru.practicum.main.event_request.dto.ParticipationRequestDto;
 import ru.practicum.main.event_request.model.EventRequest;
 import ru.practicum.main.event_request.model.Status;
-import ru.practicum.main.exception.base.NotFoundException;
 import ru.practicum.main.user.model.User;
 
 import java.util.ArrayList;
@@ -21,15 +21,9 @@ import static ru.practicum.main.user.model.QUser.user;
 import static ru.practicum.utils.message.ExceptionMessage.USER_OR_EVENT_IN_TUPLE_NOT_FOUND;
 
 @UtilityClass
-public class EventRequestMapper {
-    private void checkUserAndEventExists(Tuple tuple) {
-        if (tuple == null) {
-            throw new NotFoundException(USER_OR_EVENT_IN_TUPLE_NOT_FOUND);
-        }
-    }
-
+public class EventRequestMapper extends EventAbstractMapper {
     public EventRequest toEventRequest(Tuple tuple) {
-        checkUserAndEventExists(tuple);
+        checkTupleOrThrow(tuple, USER_OR_EVENT_IN_TUPLE_NOT_FOUND);
         final User userResult = tuple.get(user);
         final Event eventResult = tuple.get(event);
         return EventRequest.builder()
